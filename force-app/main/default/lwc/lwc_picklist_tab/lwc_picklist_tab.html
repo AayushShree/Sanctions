@@ -1,0 +1,127 @@
+<template>
+    <lightning-card title = 'Connect to Objects' icon-name="custom:custom5">
+        <lightning-tabset>
+            
+            <lightning-tab label="Login To Sanctions.io">
+                <lightning-card class="slds-p-around-medium">
+                    <div class="slds-m-left_large">
+                        <lightning-button
+                            label="Login To Sanction"
+                            variant="brand"
+                            onclick={handleLoginClick}
+                            class="slds-m-left-small">
+                        </lightning-button>
+                    </div>
+
+                </lightning-card>
+
+            </lightning-tab>
+            
+            <lightning-tab label="Connect to Objects">
+                <lightning-layout multiple-rows>
+                    <template if:true={objectOptions.length}>
+                        <lightning-layout-item padding="around-small">
+                            <lightning-combobox
+                                name="objectPicker"
+                                label="Select Object"
+                                value={selectedObject}
+                                options={objectOptions}
+                                onchange={handleObjectChange}>
+                            </lightning-combobox>
+                        </lightning-layout-item>
+
+                        <lightning-layout-item padding="around-small">
+                            <template if:true={fields.length}>
+                                <h3>Fields with Lookup or Master-Detail Relationship for {selectedObject}</h3>
+                                    <lightning-card>
+                                        <!-- <ul class="slds-list_dotted">
+                                            <template for:each={fields} for:item="field">
+                                                <li key={field} class="slds-item">{field}</li>
+                                            </template>
+                                        </ul> -->
+                                        <lightning-combobox
+                                            name="objectPicker"
+                                            label="Select Relationship"
+                                            value={selectedField}
+                                            options={fieldOptions}
+                                            onchange={handleFieldSelect}>
+                                        </lightning-combobox>
+                                    </lightning-card>
+                            </template>
+                            <template if:false={fields}>
+                                <p>No Lookup or Master-Detail fields found for {selectedObject}.</p>
+                            </template>
+                        </lightning-layout-item>
+                    </template>
+                </lightning-layout>
+            </lightning-tab>
+
+            <!-- new sanctions tab for search -->
+
+            <lightning-tab label="Sanctions Search">
+                <lightning-card>
+                    <div class="slds-p-around_medium">
+                        <lightning-input
+                            label="Name"
+                            value={name}
+                            onchange={handleNameChange}
+                            placeholder="Enter name to search"
+                            required>
+                        </lightning-input>
+            
+                        <!-- <lightning-combobox
+                            label="Data Source"
+                            value={dataSource}
+                            placeholder="Select Data Source"
+                            options={dataSourceOptions}
+                            onchange={handleDataSourceChange}>
+                        </lightning-combobox> -->
+
+                        <lightning-input
+                            type="number"
+                            label="Minimum Score"
+                            placeholder="Enter minimum score(suggested 0.85)"
+                            value={minScore}
+                            min="0.0"
+                            max="1.0"
+                            step="0.01"
+                            onchange={handleMinScoreChange}
+                            class="slds-m-bottom_medium">
+                        </lightning-input>
+
+                        <lightning-dual-listbox
+                            label="Select Data Source(s)"
+                            source-label="Available"
+                            selected-label="Selected"
+                            field-level-help="Select one or more data sources to search"
+                            options={dataSourceOptions}
+                            onchange={handleDataSourceChange}
+                            required
+                            selected={selectedDataSources}>
+                        </lightning-dual-listbox>
+            
+                        <lightning-button
+                            label="Search"
+                            variant="brand"
+                            onclick={handleSearchClick}>
+                        </lightning-button>
+                    </div>
+            
+                    <!-- <template if:true={searchResult}>
+                        <div class="slds-m-top_medium">
+                            <h3>Search Result:</h3>
+                            <pre>{searchResult}</pre>
+                        </div>
+                    </template> -->
+                    <template if:true={searchResult}>
+                        <div class="slds-m-top_medium">
+                            <h3>Search Results:</h3>
+                            <pre>{prettyJsonResult}</pre>
+                        </div>
+                    </template>
+                </lightning-card>
+            </lightning-tab>
+            
+        </lightning-tabset>
+    </lightning-card>
+</template>
