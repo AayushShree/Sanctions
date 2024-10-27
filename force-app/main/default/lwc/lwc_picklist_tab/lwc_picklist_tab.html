@@ -2,7 +2,7 @@
     <lightning-card title = 'Connect to Objects' icon-name="custom:custom5">
         <lightning-tabset>
             
-            <lightning-tab label="Login To Sanctions.io">
+            <lightning-tab label="Sanctions.io Setup">
                 <lightning-card class="slds-p-around-medium">
                     <div class="slds-m-left_large">
                         <lightning-button
@@ -115,8 +115,22 @@
                     </template> -->
                     <template if:true={searchResult}>
                         <div class="slds-m-top_medium">
-                            <h3>Search Results:</h3>
-                            <pre>{prettyJsonResult}</pre>
+                            <!-- <h3>Search Results:</h3> -->
+                            <!-- <pre>{prettyJsonResult}</pre> -->
+                             <lightning-card title="Search Results">
+                                <lightning-datatable 
+                                    key-field="si_identifier"
+                                    data={tableData}
+                                    columns={columns}
+                                    hide-checkbox-column
+                                    show-row-number-column
+                                    class="slds-p-around-medium"
+                                    sorted-by={sortedBy}
+                                    sorted-direction={sortedDirection}
+                                    onsort={handleSort} >
+                                </lightning-datatable>
+
+                             </lightning-card>
                         </div>
                     </template>
                 </lightning-card>
